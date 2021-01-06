@@ -11,3 +11,6 @@
 
 # log files
 **.log
+
+#premake files
+premake5.exe
