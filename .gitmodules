@@ -1,0 +1,3 @@
+[submodule "Dazy/vendor/spdlog"]
+	path = Dazy/vendor/spdlog
+	url = https://github.com/gabime/spdlog
