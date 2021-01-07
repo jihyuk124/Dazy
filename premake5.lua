@@ -26,7 +26,9 @@ project "Dazy"
 
 	includedirs
 	{
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/src",
+		"%{prj.name}/src/Core",
+		"%{prj.name}/vendor/spdlog/include",
 	}
 
 	filter "system:windows"
@@ -67,7 +69,8 @@ project "Sandbox"
 	includedirs
 	{
 		"Dazy/vendor/spdlog/include",
-		"Dazy/src"
+		"Dazy/src",
+		"Dazy/src/Core",
 	}
 
 	links

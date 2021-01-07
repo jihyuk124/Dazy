@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/Application.h"
+#include "Application.h"
 
 class Sandbox : public Dazy::Application
 {

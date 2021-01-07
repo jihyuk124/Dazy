@@ -1,7 +1,7 @@
 #include "SandboxApp.h"
 
 // entry point
-#include "Core/EntryPoint.h"
+#include "EntryPoint.h"
 
 Dazy::Application* Dazy::CreateApplication()
 {
