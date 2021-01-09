@@ -1,100 +1,23 @@
+require "premake/Defaults"
+require "premake/Dazy"
+require "premake/Sandbox"
+require "premake/ThirdParty"
+require "premake/Utils"
+
+include "premake/premake_customization/solution_items.lua"
+
 workspace "Dazy"
-	architecture "x64"
+	platforms( get_platforms() )
+	configurations { "Debug", "Release" }
 
-	configurations
+	solution_items
 	{
-		"Debug",
-		"Release",
-		"Dist"
-	}
-	
-outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+        ".editorconfig",
+    }
 
-project "Dazy"
-	location "Dazy"
-	kind "StaticLib"
-	language "C++"
+group "Dependencies"
+	add_third_party("glfw")
+group ""
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-
-	includedirs
-	{
-		"%{prj.name}/src",
-		"%{prj.name}/src/Core",
-		"%{prj.name}/vendor/spdlog/include",
-	}
-
-	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
-		systemversion "latest"
-
-		defines
-		{
-		}
-
-	filter "configurations:Debug"
-		defines "_DEBUG"
-		symbols "On"
-
-	filter "configurations:Release"
-		defines "_RELEASE"
-		optimize "On"
-
-	filter "configurations:Dist"
-		defines "_DIST"
-		optimize "On"
-
-project "Sandbox"
-	location "Sandbox"
-	kind "ConsoleApp"
-	language "C++"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-
-	includedirs
-	{
-		"Dazy/vendor/spdlog/include",
-		"Dazy/src",
-		"Dazy/src/Core",
-	}
-
-	links
-	{
-		"Dazy"
-	}
-
-	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
-		systemversion "latest"
-
-		defines
-		{
-		}
-
-	filter "configurations:Debug"
-		defines "_DEBUG"
-		symbols "On"
-
-	filter "configurations:Release"
-		defines "_RELEASE"
-		optimize "On"
-
-	filter "configurations:Dist"
-		defines "_DIST"
-		optimize "On"
+add_dazy()
+add_sandbox()

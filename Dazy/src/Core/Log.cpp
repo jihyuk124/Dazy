@@ -5,6 +5,7 @@
 
 namespace Dazy
 {
+	Ref<spdlog::logger> Logger::coreLogger;
 	Ref<spdlog::logger> Logger::defaultLogger;
 
 	void Logger::Init()
@@ -16,13 +17,22 @@ namespace Dazy
 		logSinks[0]->set_pattern("%^[%T] %n: %v%$");
 		logSinks[1]->set_pattern("[%T] [%l] %n: %v");
 
-		defaultLogger = std::make_shared<spdlog::logger>("Dazy", begin(logSinks), end(logSinks));
+		coreLogger = std::make_shared<spdlog::logger>("Dazy", begin(logSinks), end(logSinks));
+		spdlog::register_logger(coreLogger);
+
+		defaultLogger = std::make_shared<spdlog::logger>("APP", begin(logSinks), end(logSinks));
 		spdlog::register_logger(defaultLogger);
 
 #ifdef _DEBUG
+		coreLogger->set_level(spdlog::level::trace);
+		coreLogger->flush_on(spdlog::level::trace);
+
 		defaultLogger->set_level(spdlog::level::trace);
 		defaultLogger->flush_on(spdlog::level::trace);
 #else
+		coreLogger->set_level(spdlog::level::info);
+		coreLogger->flush_on(spdlog::level::info);
+
 		defaultLogger->set_level(spdlog::level::info);
 		defaultLogger->flush_on(spdlog::level::info);
 #endif
