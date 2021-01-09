@@ -6,9 +6,8 @@ int main(int argc, char** argv);
 namespace Dazy
 {
 	class Window;
-	class Event;
 	class WindowCloseEvent;
-	class WindowResizeEvent;
+	class Event;
 
 	class Application
 	{
@@ -16,11 +15,11 @@ namespace Dazy
 		Application(const char* name = "Dazy App");
 		virtual ~Application();
 
+		void Run();
+
 		void OnEvent(Event& e);
 
 	private:
-		void Run();
-
 		bool OnWindowClose(WindowCloseEvent& e);
 
 	private:

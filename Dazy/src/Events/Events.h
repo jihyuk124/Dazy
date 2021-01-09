@@ -33,7 +33,7 @@ namespace Dazy
 	public:
 		virtual ~Event() = default;
 
-		bool Handled = false;
+		bool handled = false;
 
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
@@ -60,7 +60,7 @@ namespace Dazy
 		{
 			if (e.GetEventType() == T::GetStaticType())
 			{
-				e.Handled |= func(static_cast<T&>(e));
+				e.handled |= func(static_cast<T&>(e));
 				return true;
 			}
 			return false;

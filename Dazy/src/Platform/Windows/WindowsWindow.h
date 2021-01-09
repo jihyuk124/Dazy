@@ -4,8 +4,8 @@
 
 struct GLFWwindow;
 
-namespace Dazy {
-
+namespace Dazy
+{
 	class WindowsWindow : public Window
 	{
 	public:
@@ -22,8 +22,6 @@ namespace Dazy {
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
-		virtual void* GetNativeWindow() const { return window; }
-	
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();

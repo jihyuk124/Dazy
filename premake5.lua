@@ -1,23 +1,107 @@
-require "premake/Defaults"
-require "premake/Dazy"
-require "premake/Sandbox"
-require "premake/ThirdParty"
-require "premake/Utils"
+require 'premake/ThirdParty'
 
-include "premake/premake_customization/solution_items.lua"
+workspace 'Dazy'
+	architecture 'x64'
 
-workspace "Dazy"
-	platforms( get_platforms() )
-	configurations { "Debug", "Release" }
-
-	solution_items
+	configurations
 	{
-        ".editorconfig",
-    }
+		'Debug',
+		'Release'
+	}
+	
+outputdir = '%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}'
 
-group "Dependencies"
-	add_third_party("glfw")
-group ""
+targetdir ('out/bin/' .. outputdir .. '/%{prj.name}')
+objdir ('out/bin-int' .. outputdir .. '/%{prj.name}')
 
-add_dazy()
-add_sandbox()
+group 'Dependencies'
+	add_third_party('glfw')
+	add_third_party('glad')
+group ''
+
+IncludeDir = {}
+IncludeDir['glfw'] = 'ThirdParty/glfw/include'
+IncludeDir['glad'] = 'ThirdParty/glad/include'
+
+project 'Dazy'
+	location 'Dazy'
+	kind 'StaticLib'
+	language 'C++'
+	buildoptions '/utf-8'
+
+	files
+	{
+		'%{prj.name}/src/**.h',
+		'%{prj.name}/src/**.cpp'
+	}
+
+	includedirs
+	{
+		'%{prj.name}/src',
+		'%{prj.name}/src/Core',
+		'ThirdParty/spdlog/include',
+		'%{IncludeDir.glfw}',
+		'%{IncludeDir.glad}',
+	}
+
+	links
+	{
+		'glfw',
+		'glad',
+		'opengl32.lib',
+	}
+
+	filter 'system:windows'
+		cppdialect 'C++17'
+		staticruntime 'On'
+		systemversion 'latest'
+
+		defines
+		{
+			"GLFW_INCLUDE_NONE"
+		}
+
+	filter 'configurations:Debug'
+		defines '_DEBUG'
+		symbols 'On'
+
+	filter 'configurations:Release'
+		defines '_RELEASE'
+		optimize 'On'
+
+project 'Sandbox'
+	location 'Sandbox'
+	kind 'ConsoleApp'
+	language 'C++'
+	buildoptions '/utf-8'
+
+	files
+	{
+		'%{prj.name}/src/**.h',
+		'%{prj.name}/src/**.cpp'
+	}
+
+	includedirs
+	{
+		'ThirdParty/spdlog/include',
+		'Dazy/src',
+		'Dazy/src/Core',
+	}
+
+	links
+	{
+		'Dazy'
+	}
+
+	filter 'system:windows'
+		cppdialect 'C++17'
+		staticruntime 'On'
+		systemversion 'latest'
+
+	filter 'configurations:Debug'
+		defines '_DEBUG'
+		symbols 'On'
+
+	filter 'configurations:Release'
+		defines '_RELEASE'
+		optimize 'On'

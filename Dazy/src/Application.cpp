@@ -1,7 +1,9 @@
 #include "Application.h"
 #include "Events/ApplicationEvent.h"
+#include "Log.h"
 #include "Window/Window.h"
-#include <GLFW/glfw3.h>
+
+#include <glad/glad.h>
 
 namespace Dazy
 {
@@ -20,6 +22,7 @@ namespace Dazy
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+
 		LOG_CORE_TRACE("{0}", e);
 	}
 
@@ -32,6 +35,7 @@ namespace Dazy
 			window->OnUpdate();
 		}
 	}
+
 	bool Application::OnWindowClose(WindowCloseEvent& e)
 	{
 		running = false;

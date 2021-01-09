@@ -1,9 +1,10 @@
 #include "WindowsWindow.h"
 #include "Events/ApplicationEvent.h"
-#include "Events/MouseEvent.h"
 #include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"
 
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace Dazy
 {
@@ -12,6 +13,11 @@ namespace Dazy
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		LOG_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
+	}
+
+	Window* Window::Create(const WindowProps& props)
+	{
+		return new WindowsWindow(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -44,10 +50,11 @@ namespace Dazy
 
 		window = glfwCreateWindow((int)props.width, (int)props.height, data.title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(window);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		ASSERT_MSG(status, "Failed to initialize Glad!");
 		glfwSetWindowUserPointer(window, &data);
 		SetVSync(true);
 
-		// Set GLFW callbacks
 		glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -100,13 +107,13 @@ namespace Dazy
 			{
 				case GLFW_PRESS:
 				{
-					MouseButtonPressedEvent event((MouseCode)button);
+					MouseButtonPressedEvent event(button);
 					data.eventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
-					MouseButtonReleasedEvent event((MouseCode)button);
+					MouseButtonReleasedEvent event(button);
 					data.eventCallback(event);
 					break;
 				}
@@ -155,5 +162,4 @@ namespace Dazy
 	{
 		return data.VSync;
 	}
-
 }
