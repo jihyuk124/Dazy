@@ -1,18 +1,22 @@
 #pragma once
-#include "Events/Events.h"
+#include <Core.h>
+#include "entt.hpp"
+
+struct GLFWwindow;
 
 namespace Dazy
 {
-	struct WindowProps
+	struct WindowData
 	{
 		std::string title;
 		uint32_t width;
 		uint32_t height;
+		bool VSync;
 
-		WindowProps(const std::string& title = "Dazy Engine",
+		WindowData(const std::string& title = "Dazy Engine",
 			        uint32_t width = 1280,
 			        uint32_t height = 720)
-			: title(title), width(width), height(height)
+			: title(title), width(width), height(height), VSync(false)
 		{
 		}
 	};
@@ -21,20 +25,45 @@ namespace Dazy
 	class Window
 	{
 	public:
-		using EventCallbackFn = std::function<void(Event&)>;
+		template <typename ... Args>
+		using EventCallbackFn = std::function<void(Args...)>;
 
-		virtual ~Window() = default;
+		Window(const WindowData& data)
+			: nativeWindow(nullptr), data(data) { }
 
-		virtual void OnUpdate() = 0;
+		Window(const Window& other) = delete;
+		Window(const Window&& other) = delete;
+		Window& operator=(const Window& other) = delete;
+		Window& operator=(const Window&& other) = delete;
 
-		virtual uint32_t GetWidth() const = 0;
-		virtual uint32_t GetHeight() const = 0;
+		~Window() {};
 
-		// Window attributes
-		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
-		virtual void SetVSync(bool enabled) = 0;
-		virtual bool IsVSync() const = 0;
+		void Init();
+		void DeInit();
 
-		static Window* Create(const WindowProps& props = WindowProps());
+		void OnUpdate();
+		const bool IsCloseRequested() const;
+
+		void SetVSync(const bool enabled);
+
+		const WindowData& GetWindowData() const { return data; }
+
+	private:
+		entt::dispatcher dispatcher;
+		entt::sigh<void(int, char)> signal;
+
+		GLFWwindow* nativeWindow;
+		
+		union
+		{
+			struct  
+			{
+				std::string title;
+				uint32_t width;
+				uint32_t height;
+				bool VSync;
+			};
+			WindowData data;
+		};
 	};
 }

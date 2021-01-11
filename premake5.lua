@@ -22,6 +22,7 @@ group ''
 IncludeDir = {}
 IncludeDir['glfw'] = 'ThirdParty/glfw/include'
 IncludeDir['glad'] = 'ThirdParty/glad/include'
+IncludeDir['entt'] = 'ThirdParty/entt/single_include/entt'
 
 project 'Dazy'
 	location 'Dazy'
@@ -40,8 +41,10 @@ project 'Dazy'
 		'%{prj.name}/src',
 		'%{prj.name}/src/Core',
 		'ThirdParty/spdlog/include',
+		'ThirdParty/spdlog/include/spdlog/fmt',
 		'%{IncludeDir.glfw}',
 		'%{IncludeDir.glad}',
+		'%{IncludeDir.entt}',
 	}
 
 	links
@@ -84,8 +87,10 @@ project 'Sandbox'
 	includedirs
 	{
 		'ThirdParty/spdlog/include',
+		'ThirdParty/spdlog/include/spdlog/fmt',
 		'Dazy/src',
 		'Dazy/src/Core',
+		'%{IncludeDir.entt}',
 	}
 
 	links

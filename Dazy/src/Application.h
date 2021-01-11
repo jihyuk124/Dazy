@@ -6,26 +6,24 @@ int main(int argc, char** argv);
 namespace Dazy
 {
 	class Window;
-	class WindowCloseEvent;
-	class Event;
 
 	class Application
 	{
-	public:
+	protected:
 		Application(const char* name = "Dazy App");
+	
+	public:
 		virtual ~Application();
 
+		static Application* GetInstance();
+
 		void Run();
-
-		void OnEvent(Event& e);
-
-	private:
-		bool OnWindowClose(WindowCloseEvent& e);
 
 	private:
 		std::unique_ptr<Window> window;
 		bool running = true;
 
+		static Application* instance;
 		friend int ::main(int argc, char** argv);
 	};
 
