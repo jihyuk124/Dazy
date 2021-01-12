@@ -3,6 +3,7 @@
 #include "Window/Window.h"
 
 #include <glad/glad.h>
+#include "glm.hpp"
 
 namespace Dazy
 {
@@ -15,7 +16,7 @@ namespace Dazy
 	}
 
 	Application::~Application()
-	{
+	{	
 		window->DeInit();
 	}
 

@@ -1,8 +1,6 @@
 return function()
 	warnings 'Off'
-	kind 'StaticLib'
     language 'C'
-	staticruntime 'on'
 	
 	includedirs
 	{

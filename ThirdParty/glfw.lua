@@ -1,6 +1,5 @@
 return function()
 	warnings 'Off'
-	kind 'StaticLib'
 	language 'C'
 
 	files
@@ -14,6 +13,11 @@ return function()
 		'ThirdParty/glfw/src/monitor.c',
 		'ThirdParty/glfw/src/vulkan.c',
 		'ThirdParty/glfw/src/window.c'
+	}
+
+	links
+	{
+		'opengl32.lib'
 	}
 
 	filter 'system:linux'

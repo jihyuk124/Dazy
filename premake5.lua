@@ -14,15 +14,17 @@ outputdir = '%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}'
 targetdir ('out/bin/' .. outputdir .. '/%{prj.name}')
 objdir ('out/bin-int' .. outputdir .. '/%{prj.name}')
 
-group 'Dependencies'
+-- ThirdParty
 	add_third_party('glfw')
 	add_third_party('glad')
+	add_third_party('glm')
 group ''
 
 IncludeDir = {}
 IncludeDir['glfw'] = 'ThirdParty/glfw/include'
 IncludeDir['glad'] = 'ThirdParty/glad/include'
 IncludeDir['entt'] = 'ThirdParty/entt/single_include/entt'
+IncludeDir['glm'] = 'ThirdParty/glm/glm'
 
 project 'Dazy'
 	location 'Dazy'
@@ -33,35 +35,30 @@ project 'Dazy'
 	files
 	{
 		'%{prj.name}/src/**.h',
-		'%{prj.name}/src/**.cpp'
+		'%{prj.name}/src/**.cpp',
 	}
 
 	includedirs
 	{
-		'%{prj.name}/src',
+		--'%{prj.name}/src',
 		'%{prj.name}/src/Core',
 		'ThirdParty/spdlog/include',
 		'ThirdParty/spdlog/include/spdlog/fmt',
 		'%{IncludeDir.glfw}',
 		'%{IncludeDir.glad}',
 		'%{IncludeDir.entt}',
+		'%{IncludeDir.glm}',
 	}
 
-	links
-	{
-		'glfw',
-		'glad',
-		'opengl32.lib',
-	}
+	links(third_party_libraries)
 
 	filter 'system:windows'
 		cppdialect 'C++17'
-		staticruntime 'On'
 		systemversion 'latest'
 
 		defines
 		{
-			"GLFW_INCLUDE_NONE"
+			'GLFW_INCLUDE_NONE'
 		}
 
 	filter 'configurations:Debug'
@@ -81,16 +78,21 @@ project 'Sandbox'
 	files
 	{
 		'%{prj.name}/src/**.h',
-		'%{prj.name}/src/**.cpp'
+		'%{prj.name}/src/**.cpp',
+
+		'%{wks}/ThirdParty/glm/glm/**.hpp',
+		'%{wks}/ThirdParty/glm/glm/**.inl',
 	}
 
 	includedirs
 	{
-		'ThirdParty/spdlog/include',
-		'ThirdParty/spdlog/include/spdlog/fmt',
+		--'%{prj.name}/src',
 		'Dazy/src',
 		'Dazy/src/Core',
+		'ThirdParty/spdlog/include',
+		'ThirdParty/spdlog/include/spdlog/fmt',
 		'%{IncludeDir.entt}',
+		'%{IncludeDir.glm}',
 	}
 
 	links
@@ -100,7 +102,6 @@ project 'Sandbox'
 
 	filter 'system:windows'
 		cppdialect 'C++17'
-		staticruntime 'On'
 		systemversion 'latest'
 
 	filter 'configurations:Debug'
