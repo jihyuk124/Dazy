@@ -23,6 +23,8 @@ namespace Dazy
 		std::unique_ptr<Window> window;
 		bool running = true;
 
+		unsigned int vertexArray, vertexBuffer, indexBuffer;
+
 		static Application* instance;
 		friend int ::main(int argc, char** argv);
 	};

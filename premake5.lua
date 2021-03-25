@@ -9,6 +9,11 @@ workspace 'Dazy'
 		'Release'
 	}
 	
+	flags
+	{
+		"MultiProcessorCompile"
+	}
+	
 outputdir = '%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}'
 
 targetdir ('out/bin/' .. outputdir .. '/%{prj.name}')
@@ -58,7 +63,8 @@ project 'Dazy'
 
 		defines
 		{
-			'GLFW_INCLUDE_NONE'
+			'GLFW_INCLUDE_NONE',
+			'_CRT_SECURE_NO_WARNINGS',
 		}
 
 	filter 'configurations:Debug'

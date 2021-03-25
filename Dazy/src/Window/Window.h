@@ -49,9 +49,6 @@ namespace Dazy
 		const WindowData& GetWindowData() const { return data; }
 
 	private:
-		entt::dispatcher dispatcher;
-		entt::sigh<void(int, char)> signal;
-
 		GLFWwindow* nativeWindow;
 		
 		union

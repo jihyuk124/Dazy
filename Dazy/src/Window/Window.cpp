@@ -32,6 +32,11 @@ namespace Dazy
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		ASSERT_MSG(status, "Failed to initialize Glad!");
 
+		LOG_CORE_INFO("OpenGL Info:");
+		LOG_CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
+		LOG_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
+		LOG_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
+
 		glfwSetWindowUserPointer(nativeWindow, &data);
 		SetVSync(true);
 		
