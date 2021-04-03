@@ -1,5 +1,6 @@
 #pragma once
 #include "Core.h"
+#include "Graphics/Shader.h"
 
 int main(int argc, char** argv);
 
@@ -24,6 +25,7 @@ namespace Dazy
 		bool running = true;
 
 		unsigned int vertexArray, vertexBuffer, indexBuffer;
+		std::unique_ptr<Shader> shader;
 
 		static Application* instance;
 		friend int ::main(int argc, char** argv);

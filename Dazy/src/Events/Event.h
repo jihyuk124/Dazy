@@ -6,40 +6,40 @@ namespace Dazy
 
 #define DECLARE_EVENT_NAME(type) const char* GetName() const { return #type; }\
 								explicit operator std::string() const { return GetName();} 
-	namespace Event
-	{
-		struct WindowResize
-		{
-			unsigned int width, height;
-		};
+	//namespace Event
+	//{
+	//	struct WindowResize
+	//	{
+	//		unsigned int width, height;
+	//	};
 
-		struct WindowClose
-		{
-		};
+	//	struct WindowClose
+	//	{
+	//	};
 
-		struct AppTickEvent
-		{
-		};
+	//	struct AppTickEvent
+	//	{
+	//	};
 
-		class AppUpdateEvent : public Event
-		{
-		public:
-			AppUpdateEvent() = default;
+	//	class AppUpdateEvent : public Event
+	//	{
+	//	public:
+	//		AppUpdateEvent() = default;
 
-			EVENT_CLASS_TYPE(AppUpdate)
-				EVENT_CLASS_CATEGORY(EventCategoryApplication)
-		};
+	//		EVENT_CLASS_TYPE(AppUpdate)
+	//			EVENT_CLASS_CATEGORY(EventCategoryApplication)
+	//	};
 
-		class AppRenderEvent : public Event
-		{
-		public:
-			AppRenderEvent() = default;
+	//	class AppRenderEvent : public Event
+	//	{
+	//	public:
+	//		AppRenderEvent() = default;
 
-			EVENT_CLASS_TYPE(AppRender)
-				EVENT_CLASS_CATEGORY(EventCategoryApplication)
-		};
+	//		EVENT_CLASS_TYPE(AppRender)
+	//			EVENT_CLASS_CATEGORY(EventCategoryApplication)
+	//	};
 
-	}
+	//}
 
 
 	/*enum class Event : entt::hashed_string::hash_type;

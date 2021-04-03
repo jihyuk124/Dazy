@@ -15,11 +15,6 @@ return function()
 		'ThirdParty/glfw/src/window.c'
 	}
 
-	links
-	{
-		'opengl32.lib'
-	}
-
 	filter 'system:linux'
 		pic 'On'
 
@@ -66,6 +61,11 @@ return function()
 		{ 
 			'_GLFW_WIN32',
 			'_CRT_SECURE_NO_WARNINGS'
+		}
+
+		links
+		{
+			'opengl32.lib'
 		}
 
 	filter 'configurations:Debug'
